@@ -78,4 +78,26 @@ userRouter.put("/update-user/:id", async (req, res) => {
   }
 });
 
+// add friend 2nd attempt
+userRouter.put("/:userId/friends/:friendId", async (req, res) => {
+  try {
+    const { userId, friendId } = req.params; // Extract the user and friend IDs from the request parameters
+
+    // Find the user document by ID and push the friendId to the friends array
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { friends: friendId } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedUser); // Respond with the updated user document
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = userRouter;
