@@ -41,4 +41,41 @@ userRouter.post("/post-user", async (req, res) => {
   }
 });
 
+// delete a user
+userRouter.delete("/find-one-delete/:username", async (req, res) => {
+  try {
+    const result = await User.findOneAndDelete({
+      username: req.params.username,
+    });
+    res.status(200).json(result);
+    console.log(`Deleted: ${result}`);
+  } catch (err) {
+    console.log("Uh Oh, something went wrong");
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+// update a user
+userRouter.put("/update-user/:id", async (req, res) => {
+  try {
+    const _id = req.params.id; // Extract the document ID from the request parameters
+    const { username, email } = req.body; // Extract the updated data from the request body
+
+    // Find the user document by ID and update its username and email fields
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { username, email },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedUser); // Respond with the updated user document
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = userRouter;
