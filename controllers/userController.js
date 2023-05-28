@@ -79,7 +79,7 @@ userRouter.put("/update-user/:id", async (req, res) => {
 });
 
 // add friend 2nd attempt
-userRouter.put("/:userId/friends/:friendId", async (req, res) => {
+userRouter.put("/:userId/add-friend/:friendId", async (req, res) => {
   try {
     const { userId, friendId } = req.params; // Extract the user and friend IDs from the request parameters
 
@@ -91,12 +91,33 @@ userRouter.put("/:userId/friends/:friendId", async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found!" });
     }
 
     res.json(updatedUser); // Respond with the updated user document
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// delete friend
+userRouter.delete("/:userId/del-friend/:friendId", async (req, res) => {
+  try {
+    const { userId, friendId } = req.params;
+
+    const dbFriend = await User.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { friends: friendId } },
+      { new: true }
+    );
+
+    if (!dbFriend) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.json(dbFriend);
+  } catch (err) {
+    console.log("Uh oh! Something went wrong");
+    res.status(500).json(err);
   }
 });
 
