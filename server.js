@@ -1,13 +1,13 @@
 const express = require("express");
 const db = require("./config/connection");
-// Require model
-// const { ??? } = require('./models');
+const controllers = require("./controllers");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(controllers);
 
 // I don't know what this part of code does. Just found it on stackoverflow (See comments at the bottom)
 // mongoose.connect(

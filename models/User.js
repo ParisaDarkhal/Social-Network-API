@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require("mongoose");
+const mongoose = require("mongoose");
 
-const UserScheme = new Schema(
+const UserSchema = new Schema(
   {
     username: { type: String, unique: true, required: true, trim: true },
     email: {
@@ -17,25 +18,51 @@ const UserScheme = new Schema(
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Thaughts",
+        ref: "Thought",
       },
     ],
     friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     toJSON: {
-      virtuals: ture,
+      virtuals: true,
     },
   }
 );
 
 // Schema Settings:Create a virtual called friendCount that retrieves the length of the user's friends array field on query
-UserScheme.virtual("friendCount").get(function () {
+UserSchema.virtual("friendCount").get(function () {
   return this.friends.length; //this ==> UserSchema
 });
-
 // sets User model
-const User = model("User", UserScheme);
+const User = model("User", UserSchema);
+
+// Will add data only if collection is empty to prevent duplicates
+User.find({})
+  .exec()
+  .then(async (collection) => {
+    if (collection.length === 0) {
+      try {
+        const insertedUsernames = await User.insertMany([
+          { username: "Parisa", email: "parisa@gmail.com" },
+          { username: "Mehdi", email: "mehdi@gmail.com" },
+          { username: "Jack", email: "jack@gmail.com" },
+          { username: "Tom", email: "tom@gmail.com" },
+          { username: "Mary", email: "mary@gmail.com" },
+          { username: "Sarah", email: "sarah@gmail.com" },
+          { username: "Missy", email: "missy@gmail.com" },
+          { username: "George", email: "george@gmail.com" },
+          { username: "Sheldon", email: "sheldon@gmail.com" },
+          { username: "Penny", email: "penny@gmail.com" },
+          { username: "Aimy", email: "aimy@gmail.com" },
+          { username: "Monica", email: "monica@gmail.com" },
+        ]);
+        console.log("Inserted items :", insertedUsernames);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
 
 // export module
 module.exports = User;
