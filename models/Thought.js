@@ -1,5 +1,9 @@
 const { Schema, model, Types } = require("mongoose");
-const dateFormat = require("../utils/dateFormat"); // to show date in standard format
+
+const formatDate = require("../utils/dateFormat"); // to show date in standard format
+function getFormattedDate(date) {
+  return formatDate(date);
+}
 
 const ReactionsSchema = new Schema(
   {
@@ -21,9 +25,7 @@ const ReactionsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (createdAtVal) => {
-        dateFormat(createdAtVal);
-      },
+      get: (createdAt) => getFormattedDate(createdAt),
     },
   },
   {
@@ -33,15 +35,13 @@ const ReactionsSchema = new Schema(
   }
 );
 
-const ToughtSchema = new Schema(
+const ThoughtSchema = new Schema(
   {
     thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (createdAtVal) => {
-        dateFormat(createdAtVal);
-      },
+      get: (createdAt) => getFormattedDate(createdAt),
     },
     username: {
       type: String,
@@ -55,7 +55,7 @@ const ToughtSchema = new Schema(
 );
 
 // sets Thoughts model
-const Thaughts = model("Thoughts", ToughtSchema);
+const Thaughts = model("Thoughts", ThoughtSchema);
 
 // export module
 module.exports = Thaughts;
