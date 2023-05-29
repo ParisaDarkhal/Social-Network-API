@@ -53,5 +53,27 @@ thoughtRouter.delete("/delete/:id", async (req, res) => {
   }
 });
 
+// update a thought
+thoughtRouter.put("/update-thought/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const { thoughtText, username } = req.body;
+    const updatedThought = await Thought.findByIdAndUpdate(
+      _id,
+      { thoughtText, username },
+      { new: true }
+    );
+    if (!updatedThought) {
+      return res.status(404).json({ message: "Thought not found!" });
+    }
+    res.status(200).json(updatedThought);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// add a reacion
+
 //Export Module
 module.exports = thoughtRouter;
