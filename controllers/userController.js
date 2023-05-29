@@ -47,8 +47,8 @@ userRouter.delete("/find-one-delete/:username", async (req, res) => {
     const result = await User.findOneAndDelete({
       username: req.params.username,
     });
-    res.status(200).json(result);
     console.log(`Deleted: ${result}`);
+    res.status(200).json(result);
   } catch (err) {
     console.log("Uh Oh, something went wrong");
     res.status(500).json({ error: "Something went wrong" });

@@ -41,5 +41,17 @@ thoughtRouter.post("/post-thought", async (req, res) => {
   }
 });
 
+// delete a thought
+thoughtRouter.delete("/delete/:id", async (req, res) => {
+  try {
+    const result = await Thought.findByIdAndDelete(req.params.id);
+    console.log(`Deleted: ${result}`);
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 //Export Module
 module.exports = thoughtRouter;
