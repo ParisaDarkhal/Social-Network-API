@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require("mongoose");
 
 const formatDate = require("../utils/dateFormat"); // to show date in standard format
+// const { Thought } = require(".");
 function getFormattedDate(date) {
   return formatDate(date);
 }
@@ -55,7 +56,7 @@ const ThoughtSchema = new Schema(
 );
 
 // sets Thoughts model
-const Thaughts = model("Thoughts", ThoughtSchema);
+const Thought = model("Thoughts", ThoughtSchema);
 
 // export module
-module.exports = Thaughts;
+module.exports = Thought;

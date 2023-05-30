@@ -74,6 +74,25 @@ thoughtRouter.put("/update-thought/:id", async (req, res) => {
 });
 
 // add a reacion
+thoughtRouter.put("/add-reaction/:id", async (req, res) => {
+  try {
+    const { reactionBody, username } = req.body;
+
+    const newReaction = await Thought.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $push: { reactions: { reactionBody, username } } },
+      { new: true }
+    );
+    if (!newReaction) {
+      return res.status(404).json({ message: "Thought not found!" });
+    }
+    console.log(newReaction);
+    res.status(200).json(newReaction);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 
 //Export Module
 module.exports = thoughtRouter;
