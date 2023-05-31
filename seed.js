@@ -1,4 +1,5 @@
 const { Thought } = require("./models");
+// needed to connect the seed to the database
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/socialNetworkDB");
 // adding reacions to thoughts
@@ -6,7 +7,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/socialNetworkDB");
 async function addReactions() {
   // get all thoughts in the database save it ina variable
   const allThoughts = await Thought.find();
-  //   console.log(allThoughts);
 
   // iterate or for loop through all those thoughts and check if each thought has a reaction
   for (let item = 0; item < allThoughts.length; item++) {

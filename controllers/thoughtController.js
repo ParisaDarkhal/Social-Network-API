@@ -28,8 +28,8 @@ thoughtRouter.get("/:id", async (req, res) => {
 //create a thought
 thoughtRouter.post("/post-thought", async (req, res) => {
   try {
-    const { thoughtText, username } = req.body;
-    const newThought = new Thought({ thoughtText, username });
+    const { thoughtText, username, reactions } = req.body;
+    const newThought = new Thought({ thoughtText, username, reactions });
     const savedThought = await newThought.save();
     if (savedThought) {
       console.log(savedThought);
@@ -57,10 +57,10 @@ thoughtRouter.delete("/delete/:id", async (req, res) => {
 thoughtRouter.put("/update-thought/:id", async (req, res) => {
   try {
     const _id = req.params.id;
-    const { thoughtText, username } = req.body;
+    const { thoughtText, username, reactions } = req.body;
     const updatedThought = await Thought.findByIdAndUpdate(
       _id,
-      { thoughtText, username },
+      { thoughtText, username, reactions },
       { new: true }
     );
     if (!updatedThought) {

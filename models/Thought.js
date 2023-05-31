@@ -21,6 +21,8 @@ const ReactionsSchema = new Schema(
     },
     username: {
       type: String,
+      id: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     createdAt: {
@@ -46,6 +48,8 @@ const ThoughtSchema = new Schema(
     },
     username: {
       type: String,
+      id: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     reactions: [ReactionsSchema],

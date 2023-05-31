@@ -1,15 +1,3 @@
-// module.exports = {
-//   format_time: (date) => {
-//     return date.toLocaleTimeString();
-//   },
-// format_date: (date) => {
-//   return `${new Date(date).getMonth() + 1}/${new Date(
-//     date
-//   ).getDate()}/${new Date(date).getFullYear()}`;
-// },
-
-// };
-
 function formatDate(date) {
   const month = String(new Date(date).getMonth() + 1).padStart(2, "0"); // Month starts from 0, so add 1
   const day = String(new Date(date).getDate()).padStart(2, "0");

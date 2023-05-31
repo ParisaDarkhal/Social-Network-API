@@ -78,7 +78,7 @@ userRouter.put("/update-user/:id", async (req, res) => {
   }
 });
 
-// add friend 2nd attempt
+// add friend
 userRouter.put("/:userId/add-friend/:friendId", async (req, res) => {
   try {
     const { userId, friendId } = req.params; // Extract the user and friend IDs from the request parameters
