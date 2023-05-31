@@ -94,5 +94,27 @@ thoughtRouter.put("/add-reaction/:id", async (req, res) => {
   }
 });
 
+// delete a reaction
+thoughtRouter.delete(
+  "/:thoughtId/del-reaction/:reactionId",
+  async (req, res) => {
+    try {
+      const { thoughtId, reactionId } = req.params;
+      const result = await Thought.findOneAndUpdate(
+        { _id: thoughtId },
+        { $pull: { reactions: { _id: reactionId } } },
+        { new: true }
+      );
+      if (!result) {
+        return res.status(404).json({ message: "Thought not found!" });
+      }
+      res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  }
+);
+
 //Export Module
 module.exports = thoughtRouter;
